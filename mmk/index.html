@@ -42,15 +42,18 @@ h1 span{color:var(--accent)}
 .src a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent}
 .src a:hover{border-color:currentColor}
 
-.tools{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
-.search{flex:1 1 380px;position:relative}
+/* Та же сетка, что у контента ниже: правая колонка ровно над карточкой заявки. */
+.tools{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;
+  align-items:center;margin-bottom:14px}
+.search{position:relative}
 .search input{width:100%;font:inherit;padding:15px 20px 15px 48px;border-radius:var(--r-pill);
   border:1px solid var(--line);background:var(--card);color:var(--ink);
   box-shadow:var(--shadow-sm);transition:box-shadow .18s var(--ease),border-color .18s var(--ease)}
 .search input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(47,107,255,.16)}
 .search svg{position:absolute;left:18px;top:50%;transform:translateY(-50%);color:var(--muted)}
-select{font:inherit;padding:14px 18px;border-radius:var(--r-pill);border:1px solid var(--line);
-  background:var(--card);color:var(--ink);box-shadow:var(--shadow-sm);cursor:pointer}
+select{width:100%;font:inherit;padding:15px 20px;border-radius:var(--r-pill);
+  border:1px solid var(--line);background:var(--card);color:var(--ink);
+  box-shadow:var(--shadow-sm);cursor:pointer}
 select:focus{outline:none;border-color:var(--accent)}
 .chips{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:20px}
 .chip{border:1px solid var(--line);background:var(--card);border-radius:var(--r-pill);
@@ -119,8 +122,16 @@ select:focus{outline:none;border-color:var(--accent)}
 .btn.ghost:hover{background:#fafbfd;color:var(--ink)}
 
 dialog{border:0;border-radius:var(--r-lg);padding:0;max-width:720px;width:92%;
-  box-shadow:var(--shadow-md)}
-dialog::backdrop{background:rgba(12,17,28,.5)}
+  box-shadow:var(--shadow-md);opacity:0;transform:translateY(10px) scale(.985);
+  transition:opacity .26s var(--ease), transform .26s var(--ease),
+    overlay .26s var(--ease) allow-discrete, display .26s var(--ease) allow-discrete}
+dialog[open]{opacity:1;transform:none}
+@starting-style{dialog[open]{opacity:0;transform:translateY(10px) scale(.985)}}
+dialog::backdrop{background:rgba(12,17,28,0);backdrop-filter:blur(0px);
+  transition:background .26s var(--ease), backdrop-filter .26s var(--ease),
+    overlay .26s allow-discrete, display .26s allow-discrete}
+dialog[open]::backdrop{background:rgba(12,17,28,.45);backdrop-filter:blur(3px)}
+@starting-style{dialog[open]::backdrop{background:rgba(12,17,28,0);backdrop-filter:blur(0px)}}
 .dlg{padding:26px 28px 22px}
 .dlg h3{margin:0 0 6px;font-size:20px;font-weight:800;letter-spacing:-.02em}
 .dlg p{margin:0 0 14px;color:var(--muted);font-size:14px}
@@ -137,7 +148,7 @@ footer{color:var(--muted);font-size:14px;padding:0 0 50px}
 footer b{color:var(--ink-soft)}
 
 @media (max-width:960px){
-  .grid{grid-template-columns:1fr}
+  .grid,.tools{grid-template-columns:1fr}
   .side{position:static}
 }
 @media (max-width:640px){
@@ -203,7 +214,7 @@ footer b{color:var(--ink-soft)}
     </aside>
   </div>
 
-  <footer>Цены без НДС, франко-вагон станция отправления — как указано в прайс-листе.<br>Демо собрал <b>Сергей Тимошенко</b> &middot; Telegram @ithaka_of</footer>
+  <footer>Демо собрал <b>Сергей Тимошенко</b> &middot; Telegram @ithaka_of</footer>
 </div>
 
 <dialog id="dlg"><div class="dlg">
